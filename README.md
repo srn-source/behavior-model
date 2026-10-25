@@ -102,16 +102,70 @@ CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E6k_qwen05_lora_knn20 
 
 C2-prior is the same with `--prompt prior_median`, `data/ft_prior`, `outputs/qwen25_05b_lora_prior` and `--exp E6p_qwen05_lora_prior`.
 
-## Layout
+## Project structure
 
 ```text
-reports/            the five reports and their figures
-src/                data loading, item registry (leakage barrier), split, metric, models, LLM prompt formats
-scripts/            one script per step (see "Run it")
-configs/            dataset revision, split, metric and bonus settings
-data/splits.json    frozen participant split (1,440 / 307 / 311)
-results/metrics/    aggregate results (per-person predictions are not published)
+README.md
+requirements.txt          CPU environment (everything except the bonus)
+requirements-ft.txt       GPU environment for the bonus fine-tuning
+configs/experiment.yaml   dataset revision, split, metric, bootstrap and bonus settings
+data/splits.json          frozen participant split (1,440 train / 307 val / 311 test)
+reports/                  the five reports; reports/figures/ holds their figures
+results/metrics/          aggregate results the reports cite (per-person predictions are not published)
+src/                      library code, imported by the scripts
+scripts/                  one runnable step each: python -m scripts.<name>
 ```
+
+**`src/`: building blocks**
+
+| File | What it does |
+|---|---|
+| `data.py` | Loads Twin-2K-500 from the local snapshot pinned to revision `f883165a` |
+| `item_registry.py` | One row per survey column: persona (input) or target, task, condition, scale. The leakage barrier |
+| `split.py` | Participant-disjoint 70/15/15 split, stratified on age × sex, frozen to `data/splits.json` |
+| `metrics.py` | The paper's accuracy metric (reproduces its published numbers) and the participant bootstrap |
+| `eval.py` | One scorer for every experiment: score, paired difference vs E0, CI |
+| `pricing.py` | Maps each person's pricing slot to the product and price they saw |
+| `baselines.py` | E0: median of training people per item and condition; buy rate per product × price |
+| `features.py` | Person features (demographics, raw persona answers), fitted on training people only |
+| `models.py` | E1 / E2: regularized regression per target column; pricing logit on top of E0 |
+| `knn.py` | E3: k nearest neighbours on the raw persona |
+| `ablation.py` | Persona shuffle: give each person another person's persona |
+| `ft_format.py` | Bonus: turns one person into a chat example (compact persona, wave-4 questions, answers) |
+| `llm_context.py` | RQ5: per-question hints for the prompt (typical answer, 20 similar people), training people only |
+
+**`scripts/`: pipeline steps**
+
+| Step | Script | What it does → output |
+|---|---|---|
+| Data | `download_data.py` | Downloads the pinned dataset (~680 MB) → `data/raw/` |
+| | `audit_leakage.py` | Checks the three data traps → `leakage_audit.{json,md}` (rendered by `leakage_audit_md.py`) |
+| | `reproduce_retest.py` | Human retest score; stops if the paper's numbers are not reproduced → `human_retest_*` |
+| | `token_counts.py` | Persona and question lengths in tokens → `token_counts.json` |
+| | `eda.py` | Exploration tables → `eda_*.csv`; figures via `eda_figures.py` |
+| Baselines and models | `run_e0.py` | E0 population median |
+| | `run_e0_cv.py` | E0 on all 2,058 people (5-fold) vs the paper → `e0_cv_vs_paper.md` |
+| | `run_e1_e2.py` | E1 and E2, regularization chosen on validation → `e1_e2_tuning.csv` |
+| | `run_e3.py` | E3 kNN, k chosen on validation → `e3_tuning.csv` |
+| | `run_e4.py` | The paper's 13 LLM-twin runs, re-scored on our split |
+| Evaluation | `evaluate.py` | Scores every model with one scorer → `leaderboard.{md,csv}`, `leaderboard_by_task.csv`, `figures/leaderboard.png` |
+| | `run_persona_shuffle.py` | Do models use the right person's persona? → `persona_shuffle.md` |
+| | `plot_bootstrap_example.py` | Optional teaching figure of the paired bootstrap |
+| Bonus LLM | `ft_build_data.py` | Writes chat-format training data → `data/ft*/` |
+| | `ft_train.py` | LoRA fine-tune of Qwen2.5-0.5B → adapter, `run_config.json` and `train_log.csv` in `outputs/` (copies published as `e6_*`) |
+| | `ft_predict.py` | Predicts wave-4 answers, untrained (E5) or fine-tuned (E6), for every prompt variant |
+| | `analyze_llm_ablation.py` | RQ5: prompting vs retrieval vs fine-tuning → `llm_ablation.*`, `figures/llm_ablation.png` |
+
+Outputs without a folder are in `results/metrics/`.
+
+## With more time
+
+1. **Fix the LLM's pricing failure first.** Score each question on its own instead of after the model's own earlier answers, to test whether copying its own "no" answers is the cause.
+2. **Give the LLM the E0 prior on the answer options,** so it only has to learn how a person differs from the crowd, like E1–E3.
+3. **Shorter LLM inputs:** retrieve only the persona answers relevant to each question, instead of the whole ~17k-token persona.
+4. **Harder generalization tests:** hold out whole questions (new items), not only new people, and use a fresh holdout. The current test set has been used for many comparisons.
+5. **Scale or preference-tune (GRPO) only after** a fine-tuned model beats E0 on validation.
+6. **Subgroup fairness** with a larger sample: several groups have fewer than 20 test people today.
 
 Built with an AI coding assistant; every reported number was re-checked against the result files.
 
