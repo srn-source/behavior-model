@@ -77,25 +77,29 @@ uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requi
 
 ### Bonus: fine-tune a model under 0.5B (GPU)
 
-`Qwen/Qwen2.5-0.5B-Instruct`, **494,032,768 parameters** (Apache-2.0). LoRA r 16, α 32, all linear layers, loss on answer lines only, 2 epochs, training people only. The adapter is merged before prediction, so the evaluated model still has 494M parameters ([e6_run_config.json](results/metrics/e6_run_config.json)). One example is one person: compact persona, then their wave-4 questions, then their answers (~24k tokens), so a full run needs one 80 GB GPU. GPU packages are in `requirements-ft.txt`.
+`Qwen/Qwen2.5-0.5B-Instruct`, **494,032,768 parameters** (Apache-2.0). LoRA r 16, α 32, all linear layers, loss on answer lines only, 2 epochs, training people only. The adapter is merged before prediction, so the evaluated model still has 494M parameters ([e6_run_config.json](results/metrics/e6_run_config.json)). One example is one person: compact persona, then their wave-4 questions, then their answers (~24k tokens), so a full run needs one 80 GB GPU. The GPU steps use their own environment (`requirements-ft.txt`: torch with CUDA 12.8, transformers, peft); scoring stays in `.venv`.
 
 ```bash
-python -m scripts.ft_build_data --tokenizer Qwen/Qwen2.5-0.5B-Instruct
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_train
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E5_qwen05_zeroshot
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E6_qwen05_lora --adapter outputs/qwen25_05b_lora
+uv venv --python 3.11 .venv-ft && uv pip install --python .venv-ft/bin/python -r requirements-ft.txt
+```
+
+```bash
+.venv-ft/bin/python -m scripts.ft_build_data --tokenizer Qwen/Qwen2.5-0.5B-Instruct
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_train
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E5_qwen05_zeroshot
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E6_qwen05_lora --adapter outputs/qwen25_05b_lora
 .venv/bin/python -m scripts.evaluate
 ```
 
 Prompting vs retrieval vs fine-tuning on the same model (RQ5):
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E5a_qwen05_none --prompt none --split test
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E5b_qwen05_prior_median --prompt prior_median --split test
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E5c_qwen05_knn_k20 --prompt knn --k 20 --split test
-python -m scripts.ft_build_data --out data/ft_knn20 --prompt knn --k 20 --tokenizer Qwen/Qwen2.5-0.5B-Instruct
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_train --train data/ft_knn20/train.jsonl --val data/ft_knn20/val.jsonl --out outputs/qwen25_05b_lora_knn20
-CUDA_VISIBLE_DEVICES=0 python -m scripts.ft_predict --exp E6k_qwen05_lora_knn20 --adapter outputs/qwen25_05b_lora_knn20 --prompt knn --k 20 --split test
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E5a_qwen05_none --prompt none --split test
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E5b_qwen05_prior_median --prompt prior_median --split test
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E5c_qwen05_knn_k20 --prompt knn --k 20 --split test
+.venv-ft/bin/python -m scripts.ft_build_data --out data/ft_knn20 --prompt knn --k 20 --tokenizer Qwen/Qwen2.5-0.5B-Instruct
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_train --train data/ft_knn20/train.jsonl --val data/ft_knn20/val.jsonl --out outputs/qwen25_05b_lora_knn20
+CUDA_VISIBLE_DEVICES=0 .venv-ft/bin/python -m scripts.ft_predict --exp E6k_qwen05_lora_knn20 --adapter outputs/qwen25_05b_lora_knn20 --prompt knn --k 20 --split test
 .venv/bin/python -m scripts.evaluate
 .venv/bin/python -m scripts.analyze_llm_ablation
 ```
@@ -160,12 +164,13 @@ Outputs without a folder are in `results/metrics/`.
 
 ## With more time
 
-1. **Fix the LLM's pricing failure first.** Score each question on its own instead of after the model's own earlier answers, to test whether copying its own "no" answers is the cause.
-2. **Give the LLM the E0 prior on the answer options,** so it only has to learn how a person differs from the crowd, like E1–E3.
-3. **Shorter LLM inputs:** retrieve only the persona answers relevant to each question, instead of the whole ~17k-token persona.
-4. **Harder generalization tests:** hold out whole questions (new items), not only new people, and use a fresh holdout. The current test set has been used for many comparisons.
-5. **Scale or preference-tune (GRPO) only after** a fine-tuned model beats E0 on validation.
-6. **Subgroup fairness** with a larger sample: several groups have fewer than 20 test people today.
+I would prioritize three experiments, each aimed at a limitation observed here:
+
+1. **Fix the small LLM's pricing failure.** Compare question-by-question generation (each answer appended before the next question) with predicting every question independently, to test whether its own earlier answers cause the repeated "do not buy".
+2. **Improve persona conditioning.** Retrieve only the persona answers relevant to each question, and give the model the population prior explicitly. Keep a change only if it beats E0 and the persona-shuffle drop grows.
+3. **Test generalization beyond familiar questions.** Evaluate on held-out questions and products and on fresh participants, with subgroup results where sample sizes allow.
+
+Larger models and preference tuning (GRPO) wait until these show that more complexity pays off.
 
 Built with an AI coding assistant; every reported number was re-checked against the result files.
 
