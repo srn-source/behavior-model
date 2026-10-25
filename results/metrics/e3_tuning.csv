@@ -1,0 +1,13 @@
+exp_id,target,k,val_score
+E3_knn_persona,wave4,10,0.7670
+E3_knn_persona,wave4,25,0.7747
+E3_knn_persona,wave4,50,0.7771
+E3_knn_persona,wave4,100,0.7780
+E3_knn_persona,wave4,200,0.7775
+E3_knn_persona,wave4,400,0.7762
+E3_knn_persona,wave1_3,10,0.7629
+E3_knn_persona,wave1_3,25,0.7708
+E3_knn_persona,wave1_3,50,0.7750
+E3_knn_persona,wave1_3,100,0.7733
+E3_knn_persona,wave1_3,200,0.7734
+E3_knn_persona,wave1_3,400,0.7720

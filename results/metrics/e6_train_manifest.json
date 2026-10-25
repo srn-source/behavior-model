@@ -1,0 +1,18 @@
+{
+  "_note": "Copy of data/ft/manifest.json (data/ft/ is not in git). Written by scripts/ft_build_data.py.",
+  "dataset_revision": "f883165a3026fde855dfd448e0cd16443ab257b6",
+  "splits": {
+    "train": {
+      "people": 1440,
+      "tokens_min": 23329,
+      "tokens_median": 23969,
+      "tokens_max": 24892
+    },
+    "val": {
+      "people": 307,
+      "tokens_min": 23649,
+      "tokens_median": 23972,
+      "tokens_max": 24712
+    }
+  }
+}

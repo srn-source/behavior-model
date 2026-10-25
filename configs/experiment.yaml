@@ -1,0 +1,25 @@
+dataset:
+  id: LLM-Digital-Twin/Twin-2K-500
+  revision: f883165a3026fde855dfd448e0cd16443ab257b6
+split:
+  fractions: {train: 0.70, val: 0.15, test: 0.15}
+  seed: 0
+  strata: [QID13, QID12]   # age bracket x sex
+  path: data/splits.json
+metric:
+  name: paper_mad_accuracy  # 1 - |pred - truth| / range, task-macro per respondent, mean over respondents
+  reference: github.com/tianyipeng-lab/Digital-Twin-Simulation@f1eed51 evaluation/mad_accuracy_evaluation.py
+  primary_target: wave4      # assignment framing; also report wave1_3 (paper framing)
+  eligibility: both_human_waves_present
+  decile_thresholds_fit_on: train
+bootstrap:
+  n: 2000
+  seed: 0
+  unit: participant
+poc:   # RQ3 bonus (E5 zero-shot, E6 LoRA). Documentation only: no script reads this block; the same values are the CLI defaults of scripts/ft_train.py.
+  model: Qwen/Qwen2.5-0.5B-Instruct   # 494,032,768 parameters (< 0.5B)
+  context: 32768
+  planned_model: HuggingFaceTB/SmolLM2-360M-Instruct   # first plan; dropped: its 8,192 context is far below the persona (~27.5k Qwen tokens as text, ~16.9k compact; results/metrics/token_counts.json)
+  method: {lora_r: 16, lora_alpha: 32, lora_dropout: 0.05, target: all-linear, lr: 2.0e-4, warmup: 0.05, schedule: cosine,
+           grad_accum: 8, epochs: 2, max_len: 26624, loss: answer tokens only, seed: 0}
+  run_record: results/metrics/e6_run_config.json   # copy of outputs/qwen25_05b_lora/run_config.json (outputs/ is not in git)

@@ -1,0 +1,75 @@
+column,question,level,share
+QID11,Which part of the United States do you currently live in?,"South (TX, OK, AR, LA, KY, TN, MS, AL, WV, DC, MD, DE, VA, NC, SC, GA, FL)",0.405
+QID11,Which part of the United States do you currently live in?,"West (WA, OR, ID, MT, WY, CA, NV, UT, CO, AZ, NM)",0.24
+QID11,Which part of the United States do you currently live in?,"Midwest (ND, SD, NE, KS, MN, IA, MO, WI, IL, MI, IN, OH)",0.181
+QID11,Which part of the United States do you currently live in?,"Northeast (PA, NY, NJ, RI, CT, MA, VT, NH, ME)",0.166
+QID11,Which part of the United States do you currently live in?,"Pacific (HI, AK)",0.008
+QID12,What is the sex that you were assigned at birth?,Female,0.507
+QID12,What is the sex that you were assigned at birth?,Male,0.493
+QID13,How old are you?,30-49,0.357
+QID13,How old are you?,50-64,0.32
+QID13,How old are you?,18-29,0.189
+QID13,How old are you?,65+,0.135
+QID14,What is the highest level of schooling or degree that you ha,College graduate/some postgrad,0.357
+QID14,What is the highest level of schooling or degree that you ha,"Some college, no degree",0.227
+QID14,What is the highest level of schooling or degree that you ha,Postgraduate,0.152
+QID14,What is the highest level of schooling or degree that you ha,High school graduate,0.132
+QID14,What is the highest level of schooling or degree that you ha,Associate's degree,0.123
+QID14,What is the highest level of schooling or degree that you ha,Less than high school,0.008
+QID15,What is your race or origin?,White,0.661
+QID15,What is your race or origin?,Black,0.122
+QID15,What is your race or origin?,Hispanic,0.094
+QID15,What is your race or origin?,Asian,0.068
+QID15,What is your race or origin?,Other,0.054
+QID16,Are you a citizen of the United States?,Yes,0.998
+QID16,Are you a citizen of the United States?,No,0.002
+QID17,Which of these best describes you?,Married,0.395
+QID17,Which of these best describes you?,Never been married,0.347
+QID17,Which of these best describes you?,Divorced,0.106
+QID17,Which of these best describes you?,Living with a partner,0.103
+QID17,Which of these best describes you?,Widowed,0.034
+QID17,Which of these best describes you?,Separated,0.015
+QID18,"What is your present religion, if any?",Protestant,0.248
+QID18,"What is your present religion, if any?",Roman Catholic,0.174
+QID18,"What is your present religion, if any?",Nothing in particular,0.159
+QID18,"What is your present religion, if any?",Agnostic,0.151
+QID18,"What is your present religion, if any?",Atheist,0.105
+QID18,"What is your present religion, if any?",Other,0.104
+QID18,"What is your present religion, if any?",Jewish,0.019
+QID18,"What is your present religion, if any?",Buddhist,0.012
+QID18,"What is your present religion, if any?",Muslim,0.009
+QID18,"What is your present religion, if any?",Orthodox,0.008
+QID18,"What is your present religion, if any?",Mormon,0.007
+QID18,"What is your present religion, if any?",Hindu,0.003
+QID19,"Aside from weddings and funerals, how often do you attend re",Never,0.407
+QID19,"Aside from weddings and funerals, how often do you attend re",Seldom,0.225
+QID19,"Aside from weddings and funerals, how often do you attend re",Once a week,0.143
+QID19,"Aside from weddings and funerals, how often do you attend re",A few times a year,0.12
+QID19,"Aside from weddings and funerals, how often do you attend re",Once or twice a month,0.063
+QID19,"Aside from weddings and funerals, how often do you attend re",More than once a week,0.042
+QID20,"In politics today, do you consider yourself a",Democrat,0.412
+QID20,"In politics today, do you consider yourself a",Independent,0.296
+QID20,"In politics today, do you consider yourself a",Republican,0.262
+QID20,"In politics today, do you consider yourself a",Something else,0.03
+QID21,"Last year, what was your total family income from all source","$100,000 or more",0.268
+QID21,"Last year, what was your total family income from all source","$30,000-$50,000",0.2
+QID21,"Last year, what was your total family income from all source","$50,000-$75,000",0.2
+QID21,"Last year, what was your total family income from all source","Less than $30,000",0.178
+QID21,"Last year, what was your total family income from all source","$75,000-$100,000",0.154
+QID22,"In general, would you describe your political views as",Moderate,0.283
+QID22,"In general, would you describe your political views as",Liberal,0.274
+QID22,"In general, would you describe your political views as",Conservative,0.209
+QID22,"In general, would you describe your political views as",Very liberal,0.168
+QID22,"In general, would you describe your political views as",Very conservative,0.067
+QID23,"Including yourself, how many people currently live in your h",2,0.316
+QID23,"Including yourself, how many people currently live in your h",3,0.206
+QID23,"Including yourself, how many people currently live in your h",1,0.2
+QID23,"Including yourself, how many people currently live in your h",4,0.171
+QID23,"Including yourself, how many people currently live in your h",More than 4,0.107
+QID24,What is your current employment status?,Full-time employment,0.423
+QID24,What is your current employment status?,Self-employed,0.136
+QID24,What is your current employment status?,Part-time employment,0.131
+QID24,What is your current employment status?,Unemployed,0.121
+QID24,What is your current employment status?,Retired,0.119
+QID24,What is your current employment status?,Student,0.038
+QID24,What is your current employment status?,Home-maker,0.032

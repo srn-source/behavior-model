@@ -1,0 +1,65 @@
+{
+  "dataset_revision": "f883165a3026fde855dfd448e0cd16443ab257b6",
+  "participants": 2058,
+  "eligible_cells": 193464,
+  "scored_columns": 122,
+  "tasks": 17,
+  "retest_paper_metric": {
+    "mean": 0.8173,
+    "ci95": [
+      0.8142,
+      0.8204
+    ]
+  },
+  "retest_item_macro": 0.8272,
+  "retest_exact_agreement": 0.628,
+  "random_expected_vs_wave1_3": 0.5917,
+  "random_expected_vs_wave4": 0.5944,
+  "decile_thresholds": {
+    "african": [
+      8.0,
+      14.4,
+      20.0,
+      27.0,
+      35.0,
+      43.0,
+      50.0,
+      52.0,
+      54.0
+    ],
+    "redwood": [
+      100.0,
+      120.0,
+      175.0,
+      250.0,
+      300.0,
+      370.0,
+      410.0,
+      750.0,
+      1200.0
+    ]
+  },
+  "published_check": {
+    "Text Persona - GPT4.1-mini": {
+      "retest": 0.8173,
+      "published_retest": 0.817,
+      "llm": 0.7171,
+      "published_llm": 0.717,
+      "reproduced": true
+    },
+    "JSON Persona - GPT4.1": {
+      "retest": 0.8184,
+      "published_retest": 0.818,
+      "llm": 0.7122,
+      "published_llm": 0.712,
+      "reproduced": true
+    },
+    "Text Persona - Gemini-Flash2.5": {
+      "retest": 0.8173,
+      "published_retest": 0.817,
+      "llm": 0.6939,
+      "published_llm": 0.694,
+      "reproduced": true
+    }
+  }
+}

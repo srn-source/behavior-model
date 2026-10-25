@@ -1,0 +1,166 @@
+"""E0 with 5-fold cross-validation on all 2,058 people, compared with the paper's own numbers.
+
+Why: the paper scores its LLM simulations on all 2,058 people. E0 learns from other
+people's answers, so scoring it on everyone requires cross-validation: each person is
+predicted by a median fitted on the other four folds, never on their own answers.
+(The paper's own XGBoost baseline uses K-fold CV the same way.)
+
+To make the numbers directly comparable with the paper, everything here is scored
+with the paper's routine (scripts/reproduce_retest.check_published):
+  * anchoring decile thresholds from all participants' wave 1-3 answers (as the paper);
+    this transform is applied identically to every method, so it favours none
+  * a cell counts when both human waves and the method being compared have an answer
+  * headline = task-macro per person, mean over people
+
+Outputs:
+  results/metrics/e0_cv_vs_paper.csv / .md
+  results/predictions/cv/E0cv5__{target}.parquet   (kept out of the main leaderboard)
+
+Run: python -m scripts.run_e0_cv
+"""
+from __future__ import annotations
+
+import json
+
+import numpy as np
+import pandas as pd
+
+from src import data
+from src import metrics as M
+from src.baselines import fit_e0, predict_e0
+from src.eval import PRED_DIR, TARGETS
+from src.split import make_folds
+
+OUT = data.REPO_ROOT / "results" / "metrics"
+K = 5
+
+
+def _published_llm() -> pd.Series:
+    out = {}
+    root = data.SIM_DIR / "llm_simulations_all_specifications"
+    for p in sorted(root.glob("*/accuracy_evaluation/mad_accuracy_summary.xlsx")):
+        s = pd.read_excel(p, sheet_name="Accuracy Summary - task level")
+        out[p.parts[-3]] = float(s.loc[s.Comparison == "llm vs. wave1_3", "Mean Accuracy"].iloc[0])
+    return pd.Series(out).sort_values()
+
+
+def cv_predictions(target: str, folds: pd.Series) -> pd.DataFrame:
+    parts = []
+    for f in range(K):
+        held_out = folds.index[folds == f].tolist()
+        train = folds.index[folds != f].tolist()
+        pred, _ = predict_e0(fit_e0(train, target), held_out)
+        parts.append(pred)
+    return pd.concat(parts).sort_index()
+
+
+def paper_frames():
+    w13, w4 = data.load_responses("wave1_3"), data.load_responses("wave4")
+    th = M.decile_thresholds(w13)  # the paper's choice: all participants
+    return th, {"wave1_3": M.to_scoring_space(w13, th), "wave4": M.to_scoring_space(w4, th)}
+
+
+def scores_on(mask, pred_scoring, truth) -> pd.Series:
+    return M.respondent_scores(M.cell_accuracy(pred_scoring, truth), mask)
+
+
+def main():
+    folds = make_folds(K)
+    th, T = paper_frames()
+    base = T["wave1_3"].notna() & T["wave4"].notna()
+    published = _published_llm()
+    (PRED_DIR / "cv").mkdir(parents=True, exist_ok=True)
+
+    rows = []
+    for target in TARGETS:
+        raw = cv_predictions(target, folds)
+        raw.to_parquet(PRED_DIR / "cv" / f"E0cv5__{target}.parquet")
+        E0 = M.to_scoring_space(raw, th).reindex(T["wave1_3"].index)
+        truth = T[target]
+        retest_pred = T["wave4"] if target == "wave1_3" else T["wave1_3"]
+
+        # E0 alone, every eligible cell of all 2,058 people
+        e0_all = scores_on(base, E0, truth)
+        rt_all = scores_on(base, retest_pred, truth)
+        m, lo, hi = M.bootstrap_mean(e0_all)
+        rows.append(dict(target=target, comparison="E0 5-fold CV (all eligible cells)", n_people=len(e0_all),
+                         llm=np.nan, llm_published=np.nan, e0=m, e0_ci_lo=lo, e0_ci_hi=hi,
+                         retest=rt_all.mean(), delta=np.nan, delta_ci_lo=np.nan, delta_ci_hi=np.nan))
+
+        # Paired with each published LLM spec, on the cells that spec answered (the paper's mask)
+        for spec in data.list_simulation_specs():
+            L = M.to_scoring_space(data.load_simulation(spec), th).reindex(truth.index)
+            mask = base & L.notna()
+            mask = mask.loc[mask.any(axis=1)]
+            llm = scores_on(mask, L, truth)
+            e0 = scores_on(mask, E0, truth)
+            rt = scores_on(mask, retest_pred, truth)
+            d, dlo, dhi = M.paired_bootstrap_delta(e0, llm)
+            rows.append(dict(
+                target=target, comparison=spec, n_people=len(llm),
+                llm=llm.mean(), llm_published=published.get(spec, np.nan) if target == "wave1_3" else np.nan,
+                e0=e0.mean(), e0_ci_lo=np.nan, e0_ci_hi=np.nan, retest=rt.mean(),
+                delta=d, delta_ci_lo=dlo, delta_ci_hi=dhi,
+            ))
+
+    df = pd.DataFrame(rows)
+    df.to_csv(OUT / "e0_cv_vs_paper.csv", index=False, float_format="%.4f")
+    write_markdown(df, folds)
+    pd.set_option("display.width", 220)
+    print(df.round(4).to_string(index=False))
+
+
+def _p(x):
+    return "" if pd.isna(x) else f"{x:.1%}"
+
+
+def write_markdown(df: pd.DataFrame, folds: pd.Series):
+    lines = [
+        "# E0 (5-fold CV) vs. the paper's LLM simulations, on all 2,058 people",
+        "",
+        "Generated by `python -m scripts.run_e0_cv`. Do not edit by hand.",
+        "",
+        "**What is directly comparable with the paper here:** the people (all 2,058), the LLM predictions "
+        "(the dataset's own files), and the scoring routine (the paper's, reproduced to 3 decimals). "
+        "The *Published* column is the number in the paper's summary file; *LLM (ours)* is the same file "
+        "re-scored by our code and should match it.",
+        "",
+        f"**E0 here** is the population median fitted with {K}-fold cross-validation "
+        f"(folds of {', '.join(str(n) for n in folds.value_counts().sort_index())} people, stratified on age × sex, seed 0): "
+        "each person is predicted from the other folds only. E0 learns from other people's answers to these "
+        "items (supervised-on-items); the LLMs do not (item-zero-shot). Δ is E0 − LLM, paired by person on the "
+        "cells the LLM answered, with a 95% participant-bootstrap CI.",
+        "",
+    ]
+    for target in TARGETS:
+        sub = df[df.target == target]
+        head = sub.iloc[0]
+        tag = "paper's target" if target == "wave1_3" else "assignment's target (not reported by the paper)"
+        lines += [f"## Target = {target} ({tag})", "",
+                  f"E0 5-fold CV on every eligible cell: **{_p(head.e0)}** [{_p(head.e0_ci_lo)}, {_p(head.e0_ci_hi)}] "
+                  f"· human retest {_p(head.retest)} · {head.n_people:,} people", "",
+                  "| LLM spec | People | Published | LLM (ours) | E0 on same cells | Δ E0 − LLM [95% CI] | Retest |",
+                  "|---|---:|---:|---:|---:|---|---:|"]
+        for _, r in sub.iloc[1:].sort_values("llm", ascending=False).iterrows():
+            delta = f"{r.delta * 100:+.1f} pp [{r.delta_ci_lo * 100:+.1f}, {r.delta_ci_hi * 100:+.1f}]"
+            lines.append(f"| {r.comparison} | {r.n_people:,} | {_p(r.llm_published)} | {_p(r.llm)} | {_p(r.e0)} | "
+                         f"{delta} | {_p(r.retest)} |")
+        lines.append("")
+    lines += [
+        "**Notes**",
+        "",
+        "- *Published* is blank where the dataset ships no summary file (Demographics Only and the two "
+        "Persona Summary specs) "
+        "and for the wave-4 target, which the paper does not report.",
+        "- JSON Persona – GPT4.1-mini covers 1,000 people. The paper's code fits the anchoring decile thresholds "
+        "on the people in each file, which gives 70.47% (published 70.5%). We fit them once on all 2,058 people so "
+        "every row uses the same transform; that gives 70.31%. All other specs match to rounding either way.",
+        "- LLM Finetuning was trained on 500 participants; only the other 1,558 have predictions, and E0 is "
+        "compared on exactly those people.",
+        "",
+    ]
+    (OUT / "e0_cv_vs_paper.md").write_text("\n".join(lines))
+
+
+if __name__ == "__main__":
+    main()

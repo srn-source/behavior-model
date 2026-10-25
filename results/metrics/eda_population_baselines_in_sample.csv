@@ -1,0 +1,5 @@
+predictor,target,paper_metric,pricing_task
+median per column (pricing by slot),wave4,0.7607,0.559
+median per column (pricing by slot),wave1_3,0.7553,0.5695
+"median per column, pricing by product x price",wave4,0.771,0.7345
+"median per column, pricing by product x price",wave1_3,0.7652,0.7378

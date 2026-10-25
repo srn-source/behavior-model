@@ -1,0 +1,10 @@
+code,exp_id,approach,context,fine_tuned,score,ci_lo,ci_hi,pricing_task,delta_vs_E0,delta_ci_lo,delta_ci_hi,predicts_buy,p_buy_slot1,p_buy_slots_2_40,corr_p_buy_vs_e0_rate
+A0,E5a_qwen05_none,Prompting,questions only,False,0.5844,0.5768,0.5919,0.5321,-0.1886,-0.1989,-0.1787,0.1061,0.2501,0.1090,0.0121
+A1,E5_qwen05_zeroshot,Prompting,persona,False,0.5917,0.5836,0.6002,0.5094,-0.1813,-0.1904,-0.1718,0.4727,0.5162,0.4727,-0.0037
+A2,E5b_qwen05_prior_median,Prompting,population median,False,0.5943,0.5566,0.6301,0.4605,-0.1787,-0.2155,-0.1416,0.9228,0.7885,0.9223,-0.0006
+B1,E5c_qwen05_knn_k20,Retrieval,20 similar people,False,0.5656,0.5562,0.5747,0.4800,-0.2074,-0.2187,-0.1964,0.6924,0.7346,0.6903,0.0115
+C1,E6_qwen05_lora,Fine-tuning,persona,True,0.7582,0.7505,0.7663,0.5427,-0.0148,-0.0170,-0.0126,0.0002,0.4196,0.1037,-0.0086
+C2-prior,E6p_qwen05_lora_prior,Fine-tuning,population median,True,0.7547,0.7468,0.7627,0.5426,-0.0182,-0.0205,-0.0160,0.0004,0.4402,0.1159,-0.0009
+C2-knn,E6k_qwen05_lora_knn20,Fine-tuning,20 similar people,True,0.7613,0.7531,0.7694,0.5423,-0.0117,-0.0166,-0.0070,0.0047,0.4224,0.1322,-0.0016
+E0,E0_population_median,Reference,–,,0.7730,0.7652,0.7807,0.7264,,,,0.4141,,,
+E3,E3_knn_persona,Reference,–,,0.7807,0.7729,0.7882,0.7355,0.0078,0.0049,0.0106,0.4029,,,

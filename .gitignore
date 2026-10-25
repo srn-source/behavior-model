@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# data and generated outputs
+data/raw/
+data/ft*/
+outputs/
+results/*
+!results/metrics/
+results/metrics/token_counts_by_participant.csv
+
+# not published: tests, working notes, plan, slide decks, assignment brief
+tests/
+docs/
+RESEARCH_PLAN.md
+reports/*.html
+Research_Engineer_Assignment.pdf
+
+# RQ4 bonus: third-party trainer clone
+axolotl/

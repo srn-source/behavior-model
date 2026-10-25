@@ -1,0 +1,255 @@
+{
+  "dataset_revision": "f883165a3026fde855dfd448e0cd16443ab257b6",
+  "registry": {
+    "persona_columns": 634,
+    "target_columns": 126,
+    "target_scored_columns": 122,
+    "persona_qids": 148,
+    "persona_qid_block_pairs": 158,
+    "target_qids": 84,
+    "target_scored_qids": 80,
+    "target_unscored_qids": [
+      "QID163",
+      "QID165",
+      "QID167",
+      "QID169"
+    ],
+    "column_overlap": [],
+    "qid_overlap": [],
+    "passed": true
+  },
+  "wave_split_json": {
+    "participants": 2058,
+    "qid_overlaps": 0,
+    "exact_text_overlaps": 0,
+    "examples": [],
+    "passed": true
+  },
+  "full_persona_trap": {
+    "unit": "question (pid x block x QuestionID); matrix rows compared together",
+    "participants": 2058,
+    "items_per_participant": 63.0,
+    "compared_items": 129654,
+    "full_persona_equals_wave4": 1.0,
+    "full_persona_equals_wave1_3": 0.6819,
+    "items_where_waves_differ": 41242,
+    "of_those_full_persona_equals_wave4": 1.0,
+    "contains_wave4_answers": true
+  },
+  "persona_summary_keywords": {
+    "pricing/purchase": 17,
+    "anchoring": 1,
+    "framing/disease": 7,
+    "sunk cost": 0,
+    "false consensus": 0,
+    "wave 4": 0,
+    "participants": 2058
+  },
+  "setting_b": {
+    "wave1_3_response_columns": 760,
+    "target_columns_present_in_wave1_3_response": 126,
+    "note": "Selecting 'all columns' of wave1_3_response.csv silently gives Setting B."
+  },
+  "conditions": {
+    "Absolute vs. relative": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "calculator": 1031,
+        "jacket": 1027
+      }
+    },
+    "Allais": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "form 1": 1051,
+        "form 2": 1007
+      }
+    },
+    "Anchoring - African countries": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "high": 1056,
+        "low": 1002
+      }
+    },
+    "Anchoring - redwood": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "low": 1049,
+        "high": 1009
+      }
+    },
+    "Base-rate": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "30 engineers": 1043,
+        "70 engineers": 1015
+      }
+    },
+    "Disease": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "loss": 1055,
+        "gain": 1003
+      }
+    },
+    "Less is More": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "A": 735,
+        "B": 672,
+        "C": 651
+      }
+    },
+    "Linda": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "conjunction": 1029,
+        "no conjunction": 1029
+      }
+    },
+    "Myside": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "German": 1043,
+        "Ford": 1015
+      }
+    },
+    "Outcome bias": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "success": 1052,
+        "failure": 1006
+      }
+    },
+    "Probability matching": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "problem 1": 1032,
+        "problem 2": 1026
+      }
+    },
+    "Proportion dominance 1": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "A": 735,
+        "B": 672,
+        "C": 651
+      }
+    },
+    "Proportion dominance 2": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "A": 735,
+        "B": 672,
+        "C": 651
+      }
+    },
+    "Sunk cost": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "no": 1035,
+        "yes": 1023
+      }
+    },
+    "WTA/WTP Thaler": {
+      "same_condition": 1.0,
+      "n_both": 2058,
+      "multi_condition_w13": 0,
+      "multi_condition_w4": 0,
+      "no_condition_w13": 0,
+      "no_condition_w4": 0,
+      "counts": {
+        "WTP certainty": 712,
+        "WTP noncertainty": 673,
+        "WTA certainty": 673
+      }
+    }
+  },
+  "old_new_same_questions": {
+    "participants": 2058,
+    "questions_old_slash_new": {
+      "63/63": 2058
+    },
+    "same_question_set": 2058,
+    "same_question_text": 2058,
+    "mismatched_pids": [],
+    "distinct_condition_combinations": 1957,
+    "passed": true
+  },
+  "near_duplicate_texts": {
+    "threshold": 0.5,
+    "n_pairs": 0,
+    "top": []
+  }
+}

@@ -1,0 +1,15 @@
+# RQ3 bonus (E5/E6 fine-tuning) - separate GPU environment, versions it was run with
+# (the analysis code in requirements.txt also runs in this environment)
+torch==2.9.1            # CUDA 12.8 build
+transformers==5.12.1
+peft==0.19.1
+accelerate==1.13.0
+flash-attn==2.8.3       # optional: ft_train falls back to sdpa without it
+jinja2
+pandas
+pyarrow
+scikit-learn
+scipy
+threadpoolctl
+pyyaml
+huggingface_hub

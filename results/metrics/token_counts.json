@@ -1,0 +1,120 @@
+{
+  "tokenizers": {
+    "qwen": "Qwen/Qwen2.5-0.5B-Instruct",
+    "openai": "o200k_base"
+  },
+  "qwen_context": 32768,
+  "overhead_reserved": 256,
+  "persona_text": {
+    "qwen": {
+      "mean": 27525.9,
+      "median": 27514.0,
+      "p90": 27671.0,
+      "p95": 27732.15,
+      "max": 28760,
+      "min": 26976
+    },
+    "o200k": {
+      "mean": 26808.1,
+      "median": 26795.0,
+      "p90": 26951.0,
+      "p95": 27014.15,
+      "max": 28030,
+      "min": 26259
+    }
+  },
+  "persona_json": {
+    "qwen": {
+      "mean": 35077.1,
+      "median": 35063.0,
+      "p90": 35245.0,
+      "p95": 35311.0,
+      "max": 36340,
+      "min": 34379
+    },
+    "o200k": {
+      "mean": 34041.6,
+      "median": 34028.0,
+      "p90": 34210.0,
+      "p95": 34271.15,
+      "max": 35290,
+      "min": 33304
+    }
+  },
+  "persona_compact": {
+    "qwen": {
+      "mean": 16900.1,
+      "median": 16885.0,
+      "p90": 17050.0,
+      "p95": 17112.0,
+      "max": 18129,
+      "min": 16379
+    },
+    "o200k": {
+      "mean": 16449.3,
+      "median": 16435.0,
+      "p90": 16598.0,
+      "p95": 16660.15,
+      "max": 17665,
+      "min": 15929
+    }
+  },
+  "persona_summary": {
+    "qwen": {
+      "mean": 3015.8,
+      "median": 3007.0,
+      "p90": 3152.3,
+      "p95": 3209.1499999999996,
+      "max": 4284,
+      "min": 2699
+    },
+    "o200k": {
+      "mean": 2855.7,
+      "median": 2845.0,
+      "p90": 2988.0,
+      "p95": 3041.1499999999996,
+      "max": 4097,
+      "min": 2559
+    }
+  },
+  "wave4_question_qwen": {
+    "per_question": {
+      "mean": 99.5,
+      "median": 91.0,
+      "p90": 169.0,
+      "p95": 207.0,
+      "max": 252,
+      "min": 13
+    },
+    "per_person_total": {
+      "mean": 6266.8,
+      "median": 6267.0,
+      "p90": 6340.0,
+      "p95": 6347.0,
+      "max": 6362,
+      "min": 6161
+    },
+    "longest_block": "Non-experimental heuristics and biases"
+  },
+  "persona_budget_one_question_qwen": 32260,
+  "persona_budget_all_questions_qwen": {
+    "mean": 26245.2,
+    "median": 26245.0,
+    "p90": 26313.0,
+    "p95": 26329.0,
+    "max": 26351,
+    "min": 26150
+  },
+  "share_fits_one_question_qwen": {
+    "persona_text": 1.0,
+    "persona_json": 0.0,
+    "persona_compact": 1.0,
+    "persona_summary": 1.0
+  },
+  "share_fits_all_questions_qwen": {
+    "persona_text": 0.0,
+    "persona_json": 0.0,
+    "persona_compact": 1.0,
+    "persona_summary": 1.0
+  }
+}

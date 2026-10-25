@@ -1,0 +1,7 @@
+role,domain,columns,missing_rate_w13,missing_rate_w4,between_subject_columns,columns_over_5pct_missing
+persona,cognitive,88,0.0272,,0,4
+persona,demographics,14,0.0,,0,0
+persona,economic_preferences,194,0.0321,,0,15
+persona,personality,338,0.1736,,0,80
+target,heuristics_biases,86,0.3488,0.3488,56,56
+target,pricing,40,0.0,0.0,0,0

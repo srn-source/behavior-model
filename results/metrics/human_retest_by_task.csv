@@ -1,0 +1,18 @@
+,retest,random_expected_vs_w4,n_cells,ci_lo,ci_hi
+denominator neglect,0.7216,0.5,2058,0.7026,0.741
+Allais,0.7405,0.5,2058,0.7216,0.759
+prob matching vs. max,0.7441,0.5,16476,0.7373,0.758
+sunk cost fallacy,0.7884,0.6394,2058,0.7777,0.7986
+absolute vs. relative savings,0.7915,0.5,2058,0.7731,0.8086
+framing problem,0.8027,0.6511,2058,0.7937,0.8115
+omission,0.8058,0.6076,2058,0.7953,0.816
+conjunction problem (Linda),0.8241,0.6628,6174,0.8182,0.8294
+less is more,0.8315,0.5909,6174,0.8261,0.8372
+base rate,0.8346,0.6803,2058,0.8265,0.8428
+pricing,0.8389,0.5,82320,0.8344,0.8432
+anchoring and adjustment,0.8421,0.6322,4116,0.8358,0.8481
+myside,0.8457,0.6312,2058,0.8378,0.8533
+false consensus,0.8608,0.642,41160,0.8579,0.8634
+non-separability of risks and benefits,0.8632,0.6273,16464,0.8602,0.8665
+outcome bias,0.8635,0.6339,2058,0.8555,0.871
+WTA/WTP-Thaler,0.8919,0.6056,2058,0.8842,0.8991

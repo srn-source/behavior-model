@@ -1,0 +1,29 @@
+target,comparison,n_people,llm,llm_published,e0,e0_ci_lo,e0_ci_hi,retest,delta,delta_ci_lo,delta_ci_hi
+wave4,E0 5-fold CV (all eligible cells),2058,,,0.7717,0.7687,0.7745,0.8173,,,
+wave4,Demographics Only - GPT4.1-mini,2058,0.6851,,0.7717,,,0.8173,0.0866,0.0824,0.0904
+wave4,JSON Persona (Predicted Output) - GPT4.1,2050,0.7256,,0.7713,,,0.8172,0.0458,0.0425,0.0489
+wave4,JSON Persona (Predicted Output) - GPT4.1-mini,2058,0.7001,,0.7734,,,0.8190,0.0733,0.0694,0.0771
+wave4,JSON Persona - GPT4.1,2058,0.7176,,0.7716,,,0.8184,0.0540,0.0508,0.0573
+wave4,JSON Persona - GPT4.1-mini,1000,0.7092,,0.7672,,,0.8116,0.0579,0.0525,0.0631
+wave4,LLM Finetuning (500 training samples) - GPT4.1-mini,1558,0.6996,,0.7738,,,0.8201,0.0741,0.0705,0.0776
+wave4,Persona Summary - GPT4.1-mini,2058,0.6828,,0.7717,,,0.8173,0.0889,0.0848,0.0930
+wave4,Persona Summary - JSON Persona - GPT4.1-mini,2058,0.6793,,0.7717,,,0.8173,0.0923,0.0887,0.0961
+wave4,Text Persona (Default Temperature) - GPT4.1-mini,2058,0.7189,,0.7717,,,0.8173,0.0527,0.0499,0.0557
+wave4,Text Persona (Reasoning) - GPT4.1-mini,2058,0.7125,,0.7717,,,0.8173,0.0592,0.0558,0.0624
+wave4,Text Persona (Repeating Questions) - GPT4.1-mini,2058,0.7111,,0.7717,,,0.8173,0.0606,0.0570,0.0642
+wave4,Text Persona - GPT4.1-mini,2058,0.7237,,0.7717,,,0.8173,0.0480,0.0454,0.0506
+wave4,Text Persona - Gemini-Flash2.5,2058,0.6985,,0.7717,,,0.8173,0.0731,0.0702,0.0760
+wave1_3,E0 5-fold CV (all eligible cells),2058,,,0.7647,0.7617,0.7677,0.8173,,,
+wave1_3,Demographics Only - GPT4.1-mini,2058,0.6804,,0.7647,,,0.8173,0.0844,0.0800,0.0885
+wave1_3,JSON Persona (Predicted Output) - GPT4.1,2050,0.7188,0.7190,0.7646,,,0.8172,0.0458,0.0425,0.0491
+wave1_3,JSON Persona (Predicted Output) - GPT4.1-mini,2058,0.6967,0.6970,0.7663,,,0.8190,0.0695,0.0656,0.0734
+wave1_3,JSON Persona - GPT4.1,2058,0.7122,0.7120,0.7650,,,0.8184,0.0527,0.0495,0.0560
+wave1_3,JSON Persona - GPT4.1-mini,1000,0.7031,0.7050,0.7589,,,0.8116,0.0558,0.0506,0.0608
+wave1_3,LLM Finetuning (500 training samples) - GPT4.1-mini,1558,0.6960,0.6960,0.7666,,,0.8201,0.0706,0.0670,0.0744
+wave1_3,Persona Summary - GPT4.1-mini,2058,0.6778,,0.7647,,,0.8173,0.0869,0.0828,0.0910
+wave1_3,Persona Summary - JSON Persona - GPT4.1-mini,2058,0.6743,,0.7647,,,0.8173,0.0904,0.0866,0.0942
+wave1_3,Text Persona (Default Temperature) - GPT4.1-mini,2058,0.7123,0.7120,0.7647,,,0.8173,0.0525,0.0494,0.0554
+wave1_3,Text Persona (Reasoning) - GPT4.1-mini,2058,0.7037,0.7040,0.7647,,,0.8173,0.0610,0.0577,0.0645
+wave1_3,Text Persona (Repeating Questions) - GPT4.1-mini,2058,0.7043,0.7040,0.7647,,,0.8173,0.0604,0.0567,0.0641
+wave1_3,Text Persona - GPT4.1-mini,2058,0.7171,0.7170,0.7647,,,0.8173,0.0476,0.0448,0.0505
+wave1_3,Text Persona - Gemini-Flash2.5,2058,0.6939,0.6940,0.7647,,,0.8173,0.0708,0.0680,0.0736

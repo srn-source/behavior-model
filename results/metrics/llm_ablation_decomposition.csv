@@ -1,0 +1,13 @@
+model,part,delta,ci_lo,ci_hi,n_people
+C1,total (model − E0),-0.0148,-0.0170,-0.0126,311
+C1,pricing (model − model with E0's pricing),-0.0108,-0.0119,-0.0097,311
+C1,rest (model with E0's pricing − E0),-0.0040,-0.0059,-0.0021,311
+C1,rest vs E3 (model with E0's pricing − E3),-0.0117,-0.0150,-0.0084,311
+C2-prior,total (model − E0),-0.0182,-0.0205,-0.0160,311
+C2-prior,pricing (model − model with E0's pricing),-0.0108,-0.0119,-0.0097,311
+C2-prior,rest (model with E0's pricing − E0),-0.0074,-0.0094,-0.0055,311
+C2-prior,rest vs E3 (model with E0's pricing − E3),-0.0152,-0.0181,-0.0120,311
+C2-knn,total (model − E0),-0.0117,-0.0166,-0.0070,311
+C2-knn,pricing (model − model with E0's pricing),-0.0108,-0.0119,-0.0098,311
+C2-knn,rest (model with E0's pricing − E0),-0.0009,-0.0056,0.0037,311
+C2-knn,rest vs E3 (model with E0's pricing − E3),-0.0086,-0.0130,-0.0042,311

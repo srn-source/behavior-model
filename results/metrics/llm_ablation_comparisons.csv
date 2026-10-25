@@ -1,0 +1,11 @@
+a,b,change,delta,ci_lo,ci_hi,n_people
+A1,A0,untrained: persona vs questions only,0.0073,0.0003,0.0149,311
+A2,A0,untrained: population median vs questions only,0.0099,-0.0279,0.0458,311
+B1,A0,untrained: 20 similar people vs questions only,-0.0188,-0.0296,-0.0081,311
+C1,A1,"training, persona prompt (E6 − E5)",0.1665,0.1570,0.1758,311
+C2-prior,A2,"training, population-median prompt",0.1604,0.1238,0.1978,311
+C2-knn,B1,"training, similar-people prompt",0.1957,0.1851,0.2071,311
+C2-prior,C1,fine-tuned: population median vs persona,-0.0035,-0.0052,-0.0016,311
+C2-knn,C1,fine-tuned: 20 similar people vs persona,0.0031,-0.0016,0.0076,311
+C2-knn,C2-prior,fine-tuned: 20 similar people vs population median,0.0065,0.0020,0.0110,311
+C2-knn,E3,best fine-tuned vs E3,-0.0195,-0.0240,-0.0146,311
