@@ -21,6 +21,8 @@
 
 ![Prompting vs retrieval vs fine-tuning](figures/llm_ablation.png)
 
+*How to read: left, test scores (95% CI) of the same Qwen2.5-0.5B with different prompt contexts: untrained (grey, orange) vs fine-tuned (green), with E0 and E3 in blue and the dotted line at random (59.4%). Right, each fine-tuned model's gap to E0 split into pricing (orange) and all other tasks (green). Pricing costs the same −1.08 points in all three; outside pricing, C2-knn is level with E0 (−0.09, CI crosses 0).*
+
 ## Architecture
 
 ```
@@ -45,6 +47,8 @@ Every model starts from E0 and learns only how a person differs from it. With th
 **Setup.** Qwen2.5-0.5B-Instruct (**494,032,768 parameters**), LoRA on all linear layers (**r 16, α 32, dropout 0.05, lr 2e-4, 2 epochs**), loss on answer tokens only. One training example = one person: compact persona (~16.9k tokens) + their Wave-4 questions → their Wave-4 answers. The adapter (~8.8M parameters) is merged before prediction, so the evaluated model has 494M parameters.
 
 ![Persona length](figures/persona_tokens.png)
+
+*How to read: bars are the median persona length per person in Qwen2.5 tokens, for four formats. Orange lines: the 32,768-token context (solid), the space left next to one question (dashed, 32,260) and next to a person's whole wave-4 questionnaire (dotted, 26,245). A bar must end left of the dotted line to train on one person in one example.*
 
 The text persona does not fit next to all Wave-4 questions in a 32k context; the compact Q/A form (question + chosen answer, option lists dropped) fits for everyone.
 

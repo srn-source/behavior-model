@@ -37,7 +37,9 @@ Binary answers reduce to exact match; anchoring estimates are scored in deciles.
 
 ![Retest by task](figures/retest_by_task.png)
 
-On some tasks (probability matching, framing, Linda) the population median scores at or above a person's own earlier answer: within-person noise is larger than between-person differences there.
+*How to read: per task, the blue bar is a person's own earlier answer used to predict their wave-4 answer (retest, with 95% CI); the orange diamond predicts everyone with the population median; the grey tick is a random guess. All 2,058 people, exploratory.*
+
+The gap between diamond and bar end is what personal information could add: large for Allais (+11.1 points) and pricing (+10.4). On some tasks (probability matching, framing, Linda) the diamond is past the bar end: the population median beats a person's own earlier answer, because within-person noise is larger than between-person differences there.
 
 ## Pricing
 
@@ -45,13 +47,15 @@ On some tasks (probability matching, framing, Linda) the population median score
 
 ![Demand curve](figures/demand_curve.png)
 
-About 80% would take a product for free and 17% at twice the reference price; the two waves overlap. People are least consistent near the reference price, where the decision is closest.
+*How to read: the x-axis is the price shown ÷ the product's median price (0 = free, 1 = usual price, 2 = double). Left: share who would buy, per wave. Right: share of people giving the same buy / not-buy answer in both waves (the y-axis starts at 0.76).*
+
+About 80% would take a product for free and 17–18% at twice the price; the two waves overlap, so the crowd's demand is stable. Individuals are least consistent near the usual price (81% same answer vs 86–88% at the extremes), where the decision is closest.
 
 ## Limits
 
 - **Long personas:** the text persona is about **27.5k tokens** (median); the compact Q/A form used for fine-tuning is about **16.9k**. Input format is a real constraint for small models.
 - **Sample:** an online US panel that over-represents college graduates, the non-religious and Democrats, and under-represents Hispanic adults (9.4% vs about 17% in the US), people 65+ (13.5% vs about 21%) and people without a high-school diploma. Results hold for "a panel like this".
-- **Retest is a reference, not a ceiling:** it mixes noise with real change over about two weeks.
+- **Retest is a reference, not a ceiling:** it mixes noise with real change between the earlier wave and wave 4 (launched two weeks after wave 3; waves 1–3 were a week apart).
 
 **Decision:** use only leakage-safe Wave 1–3 persona information, score on Wave-4 answers with the paper's task-balanced metric, and require every model to beat a train-only population baseline.
 

@@ -1,47 +1,96 @@
-# 4. Business Applications — Guide Research, Not Judge People
+# 4. Business Applications — Validate Digital Twins Before Trusting Them
 
-## What we can responsibly offer now
+## Core idea
 
-The strongest application is **evaluating digital-twin products against real human answers**. The work also supports low-stakes survey planning. It does **not** support decisions about individuals or replacing human participants.
+The value of this work today is **not** a twin that predicts individuals. It is a way to check whether a digital twin adds anything over simple population statistics, before anyone pays for it or trusts it.
 
-**Evidence:** the population baseline E0 scores **77.3%**; the best personalized model **78.1%** (+0.78 points). All 13 published LLM twins score below E0 (68.3–72.8%), although they were trained differently. Before buying a behavioral twin, ask whether it beats what is already predictable from the crowd.
+**Example.** A vendor says: *"Our AI twin predicts human answers with 73% accuracy."* Is that good? On this dataset:
+
+| Predictor | Score (311 held-out people) | Knows the person? |
+|---|---:|---|
+| The person's own earlier answer (retest) | 81.8% | yes |
+| **E0: the typical answer of training people** | **77.3%** | **no** |
+| Best published LLM twin (GPT-4.1) | 72.8% | yes (full persona) |
+
+A rule that knows nobody beats every published twin. 73% sounds high but is **below** the free baseline, so the right question is never "how accurate is it?" but **"how much better than E0 is it?"** The best model built here (E3) adds only +0.78 points.
+
+*E0 learned from other people's answers to the same questions; the zero-shot twins did not. So this compares two regimes, not two architectures. And 77.3% is not a universal bar: E0 must be rebuilt on each client's own data and items.*
 
 ## Three use cases
 
-| Who | Job | Deliverable | Boundary |
-|---|---|---|---|
-| **Market-research agency or survey-platform buyer** *(primary)* | Decide whether a digital-twin system adds value | Score, E0 baseline, paired CI, retest reference, per-task breakdown | Needs real held-out human answers to the same items |
-| **Questionnaire designer** | Find questions where people differ from the crowd | Per-task gap between retest and E0 | A small gap does not mean a question is safe to remove |
-| **Panel operator** *(experimental)* | Fill a skipped answer on a known question | An answer clearly labelled **predicted**, with an audit trail | Never shown as an observed answer; effect on later statistics untested |
+### 1. Benchmark digital-twin vendors *(primary)*
 
-Per task, the person's own earlier answer beats the population answer by up to **13.5 points** (Allais), **11.4** (pricing) and **8.7** (denominator neglect), and not at all on framing, Linda, base rate and probability matching. That is where personal information can matter.
+| | |
+|---|---|
+| **Who** | Market-research agencies, survey-panel companies, product teams buying "synthetic respondents" |
+| **Job** | Decide whether to buy or build a twin |
+| **Deliverable** | Score, E0 baseline, paired gain over E0 with 95% CI, per-task table, retest reference if available |
+| **Boundary** | Needs real human answers from held-out people on the same items |
 
-### Example: should we buy a digital-twin service?
+**Example.** An agency has survey answers from 1,000 customers. It holds out 300, sends the vendor their personas, and gets predictions back.
+1. Fit E0 on the other 700 (median answer per question and condition).
+2. Score the vendor and E0 on the same 300 people with the same scorer.
+3. Result: vendor 75%, E0 77%, gain −2 points with a CI below zero.
+4. Decision: don't buy. The twin costs money and loses to a median.
 
-An agency gives a vendor's predictions for 300 consented held-out respondents and their real answers. The evaluation:
+If the vendor scored 79% with a CI above zero, check *which* tasks it wins on before buying. Cost savings were not measured.
 
-1. Fits E0 on **training respondents only**, per question and condition.
-2. Scores the vendor and E0 on the same people and items.
-3. Reports the paired gain, its 95% CI, per-task differences and a retest reference if repeat answers exist.
-4. Recommends more human validation, not purchase, unless the gain is practically meaningful on the tasks the buyer cares about.
+### 2. Questionnaire triage
 
-**Value:** avoid paying for a complex twin that does not beat the crowd answer. Cost savings were not measured.
+| | |
+|---|---|
+| **Who** | Survey designers who run the same questionnaire repeatedly |
+| **Job** | Find questions where people really differ from the crowd |
+| **Deliverable** | Per task: retest score minus E0 score |
+| **Boundary** | A small gap does not make a question useless; it may serve other analyses |
+
+**Example** (test split, retest − E0):
+
+| Task | Gap | Reading |
+|---|---:|---|
+| Allais | +13.5 | A person's own earlier answer says much more than the crowd's |
+| Pricing | +11.4 | Real individual differences: worth personal modelling |
+| Denominator neglect | +8.7 | Same |
+| Framing, Linda, base rate | −0.2 to −0.1 | The crowd's answer predicts as well as the person's own |
+| Probability matching | −2.7 | The crowd's answer predicts *better*: answers are noisy |
+
+A researcher studying individual differences should start with Allais and pricing, not framing.
+
+### 3. Fill skipped answers, labelled *(experimental)*
+
+| | |
+|---|---|
+| **Who** | Panel operators with partly completed questionnaires |
+| **Job** | Keep a respondent who skipped a few questions instead of dropping them |
+| **Deliverable** | A predicted answer, flagged **predicted**, with an audit trail |
+| **Boundary** | Never shown as a real answer; effect on group statistics untested |
+
+**Example.** A respondent answers 99 of 100 questions. E3 fills question 100 from the answers of the 100 most similar training people, and the file marks it `predicted`. E3 is right more often than E0, but only by 0.78 points, so this is a convenience, not new information.
 
 ## Guardrails
 
-| Guardrail | Product behavior |
-|---|---|
-| **Consent and privacy** | Use authorized survey data only; never return raw personas |
-| **Scope** | Refuse unsupported populations, questions, products and price ranges |
-| **Reference row** | Show E0 next to every model, with participant counts and CIs |
-| **Labelling** | Mark outputs "model prediction, not an observed human answer" |
-| **Human oversight** | Validate with real participants before consequential decisions |
-| **Fairness** | Report error by subgroup; too few people means "unknown", not "fair" |
+Limitations say what the model *cannot* do; guardrails are the rules that *stop* misuse.
+
+| Guardrail | Product behavior | Example |
+|---|---|---|
+| **Scope** | Refuse unsupported populations, questions, products and prices | "Will Thai teenagers buy this?" → *out of scope* (US online adult panel only) |
+| **Reference row** | Show E0, CI and sample size next to every model | Never "73% accurate" alone; always "73% vs E0 77%, n = 311" |
+| **Labelling** | Mark outputs as predictions | Filled answers carry a `predicted` flag in every export |
+| **Consent and privacy** | Authorized data only; never return raw personas | A client gets scores, not other respondents' answers |
+| **Human oversight** | Validate with real people before consequential decisions | A launch decision needs a fresh human sample |
+| **Fairness** | Report error by subgroup; small groups are "unknown" | A group with 15 test people gets no fairness claim |
 
 ## Not supported
 
-Hiring, credit, insurance, eligibility or other high-impact individual decisions; personalized pricing; predicting or impersonating a named person; political microtargeting; replacing representative human research with generated answers. Stated purchase intent is not observed sales.
+| Use | Why not |
+|---|---|
+| Hiring, credit, insurance, healthcare, eligibility | +0.78 points over a rule that knows nobody is far too little to judge one person |
+| Personalized pricing | Charging people differently on a weak individual signal is price discrimination |
+| Replacing human samples and reporting the result as a survey | Twins score below the crowd's answer; output is not data about people |
+| Speaking for a named person, political microtargeting | No consent, low individual accuracy, manipulation risk |
+
+Stated purchase intent ("would you buy?") is also not observed sales.
 
 **Product position:** a human-supervised benchmark and survey research assistant, not a digital replica of a person.
 
-*Sources: `results/metrics/leaderboard.md`, `leaderboard_by_task.csv`.*
+*Sources: `results/metrics/leaderboard.md`, `leaderboard_by_task.csv`. Vendor and respondent examples are illustrative.*
